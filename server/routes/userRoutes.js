@@ -1,5 +1,5 @@
 import express from 'express';
-import { isAuth,isAdmin,isSellerOrAdmin } from "../middlewares/authMiddleware";
+import { isAuth,isAdmin,isSellerOrAdmin } from "../middlewares/authMiddleware.js";
 
 import {
     login,
@@ -11,27 +11,27 @@ import {
     updateUserById,
     deleteUserById,
     getTopSellers
-  } from '../controllers/userController';
+  } from '../controllers/userController.js';
 
-const router = express.Router();
+const userRouter = express.Router();
 
 
-router.route('/')
+userRouter.route('/')
     .post(signup)
     .get(isAuth, isAdmin, getUsers);
 
-router.post('/login', login);
+userRouter.post('/login', login);
 
-router.route('/profile')
+userRouter.route('/profile')
   .get(isAuth, getProfile)
   .put(isAuth, updateProfile);
 
-router.route('/:id')
+userRouter.route('/:id')
   .get(isAuth, isAdmin, getUserById)
   .put(isAuth, isAdmin, updateUserById)
   .delete(isAuth, isAdmin, deleteUserById);
 
-router.route('/top-sellers')
+userRouter.route('/top-sellers')
   .get(getTopSellers);
 
-export default router;
+export default userRouter;

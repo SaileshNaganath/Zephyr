@@ -1,8 +1,8 @@
 import path from 'path';
 import express from 'express';
 import multer from 'multer';
-import {isAuth} from "../middlewares/authMiddleware";
-const router = express.Router();
+import {isAuth} from "../middlewares/authMiddleware.js";
+const uploadRouter = express.Router();
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -35,8 +35,8 @@ const upload = multer({
   },
 })
 
-router.post('/',isAuth, upload.single('image'), (req, res) => {
+uploadRouter.post('/',isAuth, upload.single('image'), (req, res) => {
   res.send(`/${req.file.path}`)
 })
 
-export default router
+export default uploadRouter

@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
-import Order from "../models/orderModel";
-import mailGun from "../utils/mailGun";
+import Order from "../models/orderModel.js";
+// import mailGun from "../utils/mailGun.js";
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -64,27 +64,27 @@ const updateOrderToPaid = asyncHandler (async (req,res)=>{
 
     const updatedOrder = await order.save();
 
-    try {
-      mailGun()
-        .messages()
-        .send(
-          {
-            from: 'Zephyr <orders@mg.zephyr.com>',
-            to: `${order.user.name} <${order.user.email}>`,
-            subject: `New order ${order._id}`,
-            html: payOrderEmailTemplate(order),
-          },
-          (error, body) => {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log(body);
-            }
-          }
-        );
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   mailGun()
+    //     .messages()
+    //     .send(
+    //       {
+    //         from: 'Zephyr <orders@mg.zephyr.com>',
+    //         to: `${order.user.name} <${order.user.email}>`,
+    //         subject: `New order ${order._id}`,
+    //         html: payOrderEmailTemplate(order),
+    //       },
+    //       (error, body) => {
+    //         if (error) {
+    //           console.log(error);
+    //         } else {
+    //           console.log(body);
+    //         }
+    //       }
+    //     );
+    // } catch (err) {
+    //   console.log(err);
+    // }
 
     res.send({ message: 'Order Paid', order: updatedOrder });
   } else {

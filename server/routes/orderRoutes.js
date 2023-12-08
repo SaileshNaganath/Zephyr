@@ -1,5 +1,5 @@
 import express from 'express';
-import { isAuth, isAdmin,  isSellerOrAdmin } from "../middlewares/authMiddleware";
+import { isAuth, isAdmin,  isSellerOrAdmin } from "../middlewares/authMiddleware.js";
 import {
     addOrderItems,
     getOrderById,
@@ -8,27 +8,27 @@ import {
     getMyOrders,
     getOrders,
     getSummary
-  } from '../controllers/orderController';
+  } from '../controllers/orderController.js';
 
-const router = express.Router();
+const orderRouter = express.Router();
 
-router.route('/')
+orderRouter.route('/')
     .post(isAuth, addOrderItems)
     .get(isAuth, isSellerOrAdmin, getOrders);
 
-router.route('/myOrders')
+orderRouter.route('/myOrders')
     .get(isAuth, getMyOrders);
 
-router.route('/:id')
+orderRouter.route('/:id')
     .get(isAuth, getOrderById);
 
-router.route('/:id/pay')
+orderRouter.route('/:id/pay')
     .put(isAuth, updateOrderToPaid);
 
-router.route('/:id/deliver')
+orderRouter.route('/:id/deliver')
     .put(isAuth, isAdmin, updateOrderToDelivered);
 
-router.route('/summary')
+orderRouter.route('/summary')
     .get(isAuth,isAdmin,getSummary);
 
-export default router;
+export default orderRouter;

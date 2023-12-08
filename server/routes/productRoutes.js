@@ -1,5 +1,5 @@
 import express from "express";
-import { isAuth, isAdmin,  isSellerOrAdmin } from "../middlewares/authMiddleware";
+import { isAuth, isAdmin,  isSellerOrAdmin } from "../middlewares/authMiddleware.js";
 import {
     getProducts,
     getProductById,
@@ -9,25 +9,25 @@ import {
     updateProductById,
     deleteProductById,
     createProductReview
-} from '../controllers/productController';
+} from '../controllers/productController.js';
 
-const router = express.Router();
+const productRouter = express.Router();
 
-router.route('/')
+productRouter.route('/')
     .get(getProducts)
     .post(isAuth,isSellerOrAdmin,createProduct);
 
-router.route('/categories')
+productRouter.route('/categories')
     .get(getCategories);
 
-router.route('/top-Products')
+productRouter.route('/top-Products')
     .get(getTopProducts);
 
-router.route('/:id')
+productRouter.route('/:id')
     .get(getProductById)
     .put(isAuth,isSellerOrAdmin,updateProductById)
     .delete(isAuth,isAdmin,deleteProductById);
 
-router.route('/:id/reviews').post(isAuth,createProductReview);
+productRouter.route('/:id/reviews').post(isAuth,createProductReview);
 
-export default router;
+export default productRouter;
