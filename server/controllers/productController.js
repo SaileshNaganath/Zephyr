@@ -30,7 +30,7 @@ const getProducts = asyncHandler (async (req,res)=>{
                                        ? { rating: -1 } : { _id: -1 };
   const count = await Product.countDocuments({ ...sellerFilter, ...nameFilter, ...categoryFilter, ...priceFilter, ...ratingFilter});
   const products = await Product.find({ ...sellerFilter, ...nameFilter, ...categoryFilter, ...priceFilter, ...ratingFilter })
-                                
+                                .populate({path:'seller',select: 'seller.name seller.logo'})
                                 .sort(sortOrder)
                                 .skip(pageSize * (page - 1))
                                 .limit(pageSize);

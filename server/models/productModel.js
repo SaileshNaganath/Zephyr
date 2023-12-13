@@ -14,6 +14,7 @@ const reviewSchema = new mongoose.Schema(
         type: Number, 
         required: true 
         },
+       
     },
     {
       timestamps: true,
@@ -59,7 +60,12 @@ const productSchema = new mongoose.Schema(
             type: Number,
             required: true
         },
-        reviews: [reviewSchema]
+        reviews: [reviewSchema],
+        seller:{
+            type: mongoose.Schema.Types.ObjectId, 
+            required: false, 
+            ref: "User"
+         }
 
     },
     {
