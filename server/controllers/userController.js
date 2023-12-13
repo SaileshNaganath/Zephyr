@@ -96,12 +96,12 @@ const updateProfile = asyncHandler (async (req,res)=>{
         user.password = bcrypt.hashSync(req.body.password, 8);
       }
       const updatedUser = await user.save();
-      res.send({
+      res.status(200).send({
         _id: updatedUser._id,
         name: updatedUser.name,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
-        isSeller: user.isSeller,
+        isSeller: updatedUser.isSeller,
         token: generateToken(updatedUser._id),
       });
   }

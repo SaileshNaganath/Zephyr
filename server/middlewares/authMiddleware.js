@@ -24,7 +24,7 @@ export const isAuth = asyncHandler(async(req,res,next) => {
         }
     }
     if(!token){
-        re.status(401).send({
+        res.status(401).send({
             message:"No Token Provided!"
         })
     }

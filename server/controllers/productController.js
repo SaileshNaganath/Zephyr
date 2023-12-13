@@ -28,9 +28,9 @@ const getProducts = asyncHandler (async (req,res)=>{
   const sortOrder = order === 'lowest' ? { price: 1 } : order === 'highest'
                                        ? { price: -1 } : order === 'toprated'
                                        ? { rating: -1 } : { _id: -1 };
-  const count = await Product.count({ ...sellerFilter, ...nameFilter, ...categoryFilter, ...priceFilter, ...ratingFilter});
+  const count = await Product.countDocuments({ ...sellerFilter, ...nameFilter, ...categoryFilter, ...priceFilter, ...ratingFilter});
   const products = await Product.find({ ...sellerFilter, ...nameFilter, ...categoryFilter, ...priceFilter, ...ratingFilter })
-                                .populate('seller', 'seller.name seller.logo')
+                                
                                 .sort(sortOrder)
                                 .skip(pageSize * (page - 1))
                                 .limit(pageSize);
