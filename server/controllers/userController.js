@@ -21,7 +21,7 @@ const login = asyncHandler (async (req,res)=>{
       return;
     }
   }
-  res.status(401).send({ message: 'Invalid email or password' });
+  return res.status(401).send({ message: 'Invalid email or password' });
 })
 
 // @desc    Register a new user
@@ -31,7 +31,7 @@ const signup = asyncHandler (async (req,res)=>{
 
   const userExists = await User.findOne({email:req.body.email});
   if(userExists){
-    res.status(400)
+    return res.status(400)
       .send({message:"User already exist"});
   }
 
@@ -43,7 +43,7 @@ const signup = asyncHandler (async (req,res)=>{
 
   const createdUser = await user.save();
   if (createdUser) {
-    res.status(201).send({
+    return res.status(201).send({
       _id: createdUser._id,
       name: createdUser.name,
       email: createdUser.email,
@@ -52,7 +52,7 @@ const signup = asyncHandler (async (req,res)=>{
       token: generateToken(user._id),
     })
   } else {
-    res.status(400)
+    return res.status(400)
       .send({message:'Invalid user data'})
   }
 })
@@ -62,7 +62,7 @@ const signup = asyncHandler (async (req,res)=>{
 // @access  Private/ Admin
 const getUsers = asyncHandler (async (req,res)=>{
   const users = await User.find({});
-  res.send(users);
+  return res.send(users);
 })
 
 // @desc    Get user profile
@@ -72,9 +72,9 @@ const getProfile = asyncHandler (async (req,res)=>{
   const user = await User.findById(req.user._id);
 
   if(user){
-    res.status(201).send(user);
+    return res.status(201).send(user);
   }else{
-    res.status(404).send({message:"User not found"});
+    return res.status(404).send({message:"User not found"});
   }
 })
 
@@ -96,7 +96,7 @@ const updateProfile = asyncHandler (async (req,res)=>{
         user.password = bcrypt.hashSync(req.body.password, 8);
       }
       const updatedUser = await user.save();
-      res.status(200).send({
+      return res.status(200).send({
         _id: updatedUser._id,
         name: updatedUser.name,
         email: updatedUser.email,
@@ -105,7 +105,7 @@ const updateProfile = asyncHandler (async (req,res)=>{
         token: generateToken(updatedUser._id),
       });
   }
-  res.status(404).send({message:'User not found'});
+  return res.status(404).send({message:'User not found'});
 })
 
 // @desc    Get user by id
@@ -115,9 +115,9 @@ const getUserById = asyncHandler (async (req,res)=>{
   const user = await User.findById(req.params.id).select('-password')
 
   if (user) {
-    res.status(201).send(user);
+    return res.status(201).send(user);
   } else {
-    res.status(404).send({message:'User not found'})
+    return res.status(404).send({message:'User not found'})
   }
 })
 
@@ -135,9 +135,9 @@ const updateUserById = asyncHandler (async (req,res)=>{
  
     const updatedUser = await user.save();
 
-    res.status(201).send({ message: 'User Updated', user: updatedUser });
+    return res.status(201).send({ message: 'User Updated', user: updatedUser });
   } else {
-    res.status(404).send({ message: 'User Not Found' });
+    return res.status(404).send({ message: 'User Not Found' });
   }
 })
 
@@ -149,9 +149,9 @@ const deleteUserById = asyncHandler (async (req,res)=>{
 
   if (user) {
     await user.remove()
-    res.status(201).send({ message: 'User has been removed' });
+    return res.status(201).send({ message: 'User has been removed' });
   } else {
-    res.status(404).send({message:'User not found'});
+    return res.status(404).send({message:'User not found'});
   }
 })
 
@@ -162,7 +162,7 @@ const getTopSellers = asyncHandler (async (req,res)=>{
   const topSellers = await User.find({ isSeller: true })
   .sort({ 'seller.rating': -1 })
   .limit(3);
-res.status(201).send(topSellers);
+return res.status(201).send(topSellers);
 })
 
 export {

@@ -20,7 +20,8 @@ userRouter.route('/')
     .post(signup)
     .get(isAuth, isAdmin, getUsers);
 
-userRouter.post('/login', login);
+userRouter.route('/login')
+    .post(login);
 
 userRouter.route('/profile')
   .get(isAuth, getProfile)

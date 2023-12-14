@@ -35,7 +35,7 @@ const getProducts = asyncHandler (async (req,res)=>{
                                 .skip(pageSize * (page - 1))
                                 .limit(pageSize);
   
-  res.send({ products, page, pages: Math.ceil(count / pageSize) });
+  return res.send({ products, page, pages: Math.ceil(count / pageSize) });
 })
 
 // @desc    Fetch single product
@@ -47,9 +47,9 @@ const getProductById = asyncHandler (async (req,res)=>{
         'seller.name seller.logo seller.rating seller.numReviews'
       );
       if (product) {
-        res.send(product);
+        return res.send(product);
       } else {
-        res.status(404).send({ message: 'Product Not Found' });
+        return res.status(404).send({ message: 'Product Not Found' });
       }
 })
 
@@ -58,7 +58,7 @@ const getProductById = asyncHandler (async (req,res)=>{
 // @access  Public
 const getCategories = asyncHandler (async (req,res)=>{
     const categories = await Product.find().distinct('category');
-    res.send(categories);
+    return res.send(categories);
 })
 
 // @desc    Fetch top products
@@ -66,7 +66,7 @@ const getCategories = asyncHandler (async (req,res)=>{
 // @access  Public
 const getTopProducts = asyncHandler (async (req,res)=>{
     const products = await Product.find({}).sort({ rating: -1 }).limit(3);
-    res.json(products);
+    return res.json(products);
 })
 
 // @desc    Create a product
@@ -86,7 +86,7 @@ const createProduct = asyncHandler (async (req,res)=>{
     description: 'Sample Description',
   });
   const createdProduct = await product.save();
-  res.status(201).send({message:'Product Created', product: createdProduct });
+  return res.status(201).send({message:'Product Created', product: createdProduct });
 })
 
 // @desc    Update product by id
@@ -103,9 +103,9 @@ const updateProductById = asyncHandler (async (req,res)=>{
     product.countInStock = req.body.countInStock;
     product.description = req.body.description;
     const updatedProduct = await product.save();
-    res.status(201).send({ message: 'Product Updated', product: updatedProduct });
+    return res.status(201).send({ message: 'Product Updated', product: updatedProduct });
   } else {
-    res.status(404).send({ message: 'Product Not Found' });
+    return res.status(404).send({ message: 'Product Not Found' });
   }
 })
 
@@ -116,9 +116,9 @@ const deleteProductById = asyncHandler (async (req,res)=>{
     const product = await Product.findById(req.params.id);
     if(product){
        const deleteProduct = await product.remove();
-       res.send({ message: 'Product Deleted', product: deleteProduct });
+       return res.send({ message: 'Product Deleted', product: deleteProduct });
     }else {
-        res.status(404).send({ message: 'Product Not Found' });
+        return res.status(404).send({ message: 'Product Not Found' });
       }
     
 })
@@ -134,7 +134,7 @@ const createProductReview = asyncHandler (async (req,res)=>{
     )
 
     if(alreadyReviewed){
-      res.status(400)
+      return res.status(400)
           .send({message:'Product has been already reviewed'});
     }
 
@@ -154,9 +154,9 @@ const createProductReview = asyncHandler (async (req,res)=>{
       product.reviews.length
 
       await product.save()
-      res.status(201).send({ message: 'Review added' });
+      return res.status(201).send({ message: 'Review added' });
   }else {
-    res.status(404).send('Product not found');
+    return res.status(404).send('Product not found');
   }
 })
 

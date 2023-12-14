@@ -9,7 +9,7 @@ const addOrderItems = asyncHandler (async (req,res)=>{
   const {orderItems} = req.body;
 
   if(orderItems && orderItems.length === 0){
-    res.status(400).send({message:"No order items"});
+    return res.status(400).send({message:"No order items"});
   }else{
     const order= new Order({
       seller: req.body.orderItems[0].seller,
@@ -23,7 +23,7 @@ const addOrderItems = asyncHandler (async (req,res)=>{
       user: req.user._id,
     })
     const createdOrder = await order.save();
-    res
+    return res
       .status(201)
       .send({ message: 'New Order Created', order: createdOrder });
   }
@@ -39,9 +39,9 @@ const getOrderById = asyncHandler (async (req,res)=>{
   )
 
   if (order) {
-    res.send(order);
+    return res.send(order);
   } else {
-    res.status(404)
+    return res.status(404)
         .send({message:'Order not found'});
   }
 })
@@ -86,9 +86,9 @@ const updateOrderToPaid = asyncHandler (async (req,res)=>{
     //   console.log(err);
     // }
 
-    res.send({ message: 'Order Paid', order: updatedOrder });
+    return res.send({ message: 'Order Paid', order: updatedOrder });
   } else {
-    res.status(404).send({ message: 'Order Not Found' });
+    return res.status(404).send({ message: 'Order Not Found' });
   }
 })
 
@@ -102,9 +102,9 @@ const updateOrderToDelivered = asyncHandler (async (req,res)=>{
       order.deliveredAt = Date.now();
 
       const updatedOrder = await order.save();
-      res.send({ message: 'Order Delivered', order: updatedOrder });
+      return res.send({ message: 'Order Delivered', order: updatedOrder });
     } else {
-      res.status(404).send({ message: 'Order Not Found' });
+      return res.status(404).send({ message: 'Order Not Found' });
     }
 })
 
@@ -113,7 +113,7 @@ const updateOrderToDelivered = asyncHandler (async (req,res)=>{
 // @access  Private/ Any Authorized Person
 const getMyOrders = asyncHandler (async (req,res)=>{
   const orders = await Order.find({ user: req.user._id });
-    res.send(orders);
+    return res.send(orders);
 })
 
 // @desc    Get all orders
@@ -127,7 +127,7 @@ const getOrders = asyncHandler (async (req,res)=>{
       'user',
       'name'
     );
-    res.send(orders);
+    return res.send(orders);
 })
 
 // @desc    Get Summary
@@ -169,7 +169,7 @@ const getSummary = asyncHandler (async (req,res)=>{
       },
     },
   ]);
-  res.send({ users, orders, dailyOrders, productCategories });
+  return res.send({ users, orders, dailyOrders, productCategories });
 })
 
 export{
