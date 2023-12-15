@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Acorn';
+    src: local('Acorn Regular'), local('Acorn-Regular'),
+        url('Acorn-Regular.woff2') format('woff2'),
+        url('Acorn-Regular.woff') format('woff'),
+        url('Acorn-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }

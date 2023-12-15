@@ -11,7 +11,7 @@ users:[
   {
     name: 'Seller',
     email: 'seller@example.com', 
-    password: bcrypt.hashSync('1234', 10),
+    password: bcrypt.hashSync('123456', 10),
     isAdmin: true,
     isSeller: true,
     seller: {

@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Prosa GT';
+    src: local('Prosa GT Regular'), local('Prosa-GT-Regular'),
+        url('ProsaGT-Regular.woff2') format('woff2'),
+        url('ProsaGT-Regular.woff') format('woff'),
+        url('ProsaGT-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }

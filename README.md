@@ -84,7 +84,7 @@ admin@example.com (Admin)
 seller@example.com (Seller)
 123456
 
-customer@example.com (Customer)
+user@example.com (Customer)
 123456
 
 ```
