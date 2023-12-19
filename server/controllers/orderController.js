@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Order from "../models/orderModel.js";
+import User from '../models/userModel.js';
 // import mailGun from "../utils/mailGun.js";
 
 // @desc    Create new order
@@ -33,10 +34,7 @@ const addOrderItems = asyncHandler (async (req,res)=>{
 // @route   GET /api/orders/:id
 // @access  Private/ Any Authorized Person
 const getOrderById = asyncHandler (async (req,res)=>{
-  const order = await Order.findById(req.params.id).populate(
-    'user',
-    'name email'
-  )
+  const order = await Order.findById(req.params.id);
 
   if (order) {
     return res.send(order);
@@ -50,7 +48,10 @@ const getOrderById = asyncHandler (async (req,res)=>{
 // @route   GET /api/orders/:id/pay
 // @access  Private/ Any Authorized Person
 const updateOrderToPaid = asyncHandler (async (req,res)=>{
-  const order = await Order.findById(req.params.id);
+  const order = await Order.findById(req.params.id).populate(
+    'user',
+    'email name'
+  )
 
   if (order) {
     order.isPaid = true;

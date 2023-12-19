@@ -17,10 +17,12 @@ const userRouter = express.Router();
 
 
 userRouter.route('/')
-    .post(signup)
     .get(isAuth, isAdmin, getUsers);
 
-userRouter.route('/login')
+userRouter.route('/register')
+    .post(signup);
+
+userRouter.route('/signin')
     .post(login);
 
 userRouter.route('/profile')

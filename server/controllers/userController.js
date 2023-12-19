@@ -16,7 +16,7 @@ const login = asyncHandler (async (req,res)=>{
         email: user.email,
         isAdmin: user.isAdmin,
         isSeller: user.isSeller,
-        token: generateToken(user._id),
+        token: generateToken(user),
       })
       return;
     }
@@ -34,8 +34,9 @@ const signup = asyncHandler (async (req,res)=>{
     return res.status(400)
       .send({message:"User already exist"});
   }
+  else{
 
-  const user = new User({
+    const user = new User({
       name: req.body.name,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 8),
@@ -49,11 +50,12 @@ const signup = asyncHandler (async (req,res)=>{
       email: createdUser.email,
       isAdmin: createdUser.isAdmin,
       isSeller: user.isSeller,
-      token: generateToken(user._id),
+      token: generateToken(createdUser),
     })
   } else {
     return res.status(400)
       .send({message:'Invalid user data'})
+  }
   }
 })
 
@@ -101,8 +103,8 @@ const updateProfile = asyncHandler (async (req,res)=>{
         name: updatedUser.name,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
-        isSeller: updatedUser.isSeller,
-        token: generateToken(updatedUser._id),
+        isSeller: user.isSeller,
+        token: generateToken(updatedUser),
       });
   }
   return res.status(404).send({message:'User not found'});
@@ -148,8 +150,14 @@ const deleteUserById = asyncHandler (async (req,res)=>{
   const user = await User.findById(req.params.id)
 
   if (user) {
-    await user.remove()
-    return res.status(201).send({ message: 'User has been removed' });
+    if (user.email === 'admin@example.com') {
+      res.status(400).send({ message: 'Can Not Delete Admin User' });
+      return;
+    }else{
+      await user.remove();
+      return res.status(201).send({ message: 'User has been removed' });
+    }
+  
   } else {
     return res.status(404).send({message:'User not found'});
   }

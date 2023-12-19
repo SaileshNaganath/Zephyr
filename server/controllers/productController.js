@@ -28,8 +28,20 @@ const getProducts = asyncHandler (async (req,res)=>{
   const sortOrder = order === 'lowest' ? { price: 1 } : order === 'highest'
                                        ? { price: -1 } : order === 'toprated'
                                        ? { rating: -1 } : { _id: -1 };
-  const count = await Product.countDocuments({ ...sellerFilter, ...nameFilter, ...categoryFilter, ...priceFilter, ...ratingFilter});
-  const products = await Product.find({ ...sellerFilter, ...nameFilter, ...categoryFilter, ...priceFilter, ...ratingFilter })
+  const count = await Product.countDocuments({ 
+                                      ...sellerFilter, 
+                                      ...nameFilter, 
+                                      ...categoryFilter, 
+                                      ...priceFilter, 
+                                      ...ratingFilter
+                                    });
+  const products = await Product.find({ 
+                                      ...sellerFilter, 
+                                      ...nameFilter, 
+                                      ...categoryFilter, 
+                                      ...priceFilter, 
+                                      ...ratingFilter 
+                                    })
                                 .populate({path:'seller',select: 'seller.name seller.logo'})
                                 .sort(sortOrder)
                                 .skip(pageSize * (page - 1))
@@ -37,6 +49,27 @@ const getProducts = asyncHandler (async (req,res)=>{
   
   return res.send({ products, page, pages: Math.ceil(count / pageSize) });
 })
+
+  // const getProducts = asyncHandler(async (req, res) => {
+  //   const pageSize = 10
+  //   const page = Number(req.query.pageNumber) || 1
+  
+  //   const keyword = req.query.keyword
+  //     ? {
+  //         name: {
+  //           $regex: req.query.keyword,
+  //           $options: 'i',
+  //         },
+  //       }
+  //     : {}
+  
+  //   const count = await Product.countDocuments({ ...keyword })
+  //   const products = await Product.find({ ...keyword })
+  //     .limit(pageSize)
+  //     .skip(pageSize * (page - 1))
+  
+  //   return res.send({ products, page, pages: Math.ceil(count / pageSize) });
+  // })
 
 // @desc    Fetch single product
 // @route   GET /api/products/:id
@@ -109,7 +142,7 @@ const updateProductById = asyncHandler (async (req,res)=>{
   }
 })
 
-// @desc    Delete product bu id
+// @desc    Delete product by id
 // @route   DELETE /api/products/:id
 // @access  Private/ Admin
 const deleteProductById = asyncHandler (async (req,res)=>{
@@ -130,7 +163,7 @@ const createProductReview = asyncHandler (async (req,res)=>{
   const product =await Product.findById(req.params.id);
   if(product){
     const alreadyReviewed = product.reviews.find(
-      (r)=> r.user.toString() === req.user._id.toString()
+      (x) => x.name === req.user.name
     )
 
     if(alreadyReviewed){
@@ -139,7 +172,6 @@ const createProductReview = asyncHandler (async (req,res)=>{
     }
 
     const review={
-      user : req.user._id,
       name : req.user.name,
       rating:Number(req.body.rating),
       comment:req.body.comment
@@ -153,8 +185,11 @@ const createProductReview = asyncHandler (async (req,res)=>{
       product.reviews.reduce((acc, item) => item.rating + acc, 0) /
       product.reviews.length
 
-      await product.save()
-      return res.status(201).send({ message: 'Review added' });
+      const updatedReview = await product.save();
+      return res.status(201).send({ 
+          message: 'Review added',
+          review: updatedReview.reviews[updatedReview.reviews.length-1]
+      });
   }else {
     return res.status(404).send('Product not found');
   }

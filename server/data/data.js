@@ -15,7 +15,7 @@ users:[
     isAdmin: true,
     isSeller: true,
     seller: {
-      name: 'Puma',
+      name: 'Apple',
       logo: '/images/logo1.png',
       description: 'best seller',
       rating: 4.5,
@@ -42,7 +42,7 @@ products: [
     category: 'Electronics',
     price: 89.99,
     countInStock: 3,
-    rating: 0,
+    rating: 5,
     numReviews: 0,
   },
   {
@@ -54,7 +54,7 @@ products: [
     category: 'Electronics',
     price: 599.99,
     countInStock: 10,
-    rating: 0,
+    rating: 3,
     numReviews: 0,
   },
   {
@@ -66,7 +66,7 @@ products: [
     category: 'Electronics',
     price: 929.99,
     countInStock: 0,
-    rating: 0,
+    rating: 4,
     numReviews: 0,
   },
   {
@@ -78,7 +78,7 @@ products: [
     category: 'Electronics',
     price: 399.99,
     countInStock: 10,
-    rating: 0,
+    rating: 4.5,
     numReviews: 0,
   },
   {
@@ -90,7 +90,7 @@ products: [
     category: 'Electronics',
     price: 49.99,
     countInStock: 7,
-    rating: 0,
+    rating: 5,
     numReviews: 0,
   },
   {
@@ -102,7 +102,7 @@ products: [
     category: 'Electronics',
     price: 29.99,
     countInStock: 0,
-    rating: 0,
+    rating: 3,
     numReviews: 0,
   },
 ]
