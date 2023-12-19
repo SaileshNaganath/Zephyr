@@ -20,7 +20,7 @@ import serverConfig from './configs/serverConfig.js';
 dotenv.config();
 
 mongoose
-	.connect('mongodb://localhost/zephyr',init())
+	.connect(process.env.MONGODB_URI || 'mongodb://localhost/zephyr',init())
 	.then(() => console.log('DB connected'))
 	.catch((error) => console.error(error));
 
