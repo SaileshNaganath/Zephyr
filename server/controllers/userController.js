@@ -1,11 +1,11 @@
 import asyncHandler from 'express-async-handler';
 import generateToken from '../utils/generateToken.js';
 import User from '../models/userModel.js'; 
-
+import bcrypt from 'bcryptjs';
 // @desc    Auth user & get token
-// @route   POST /api/users/login
+// @route   POST /api/users/signin
 // @access  Public
-const login = asyncHandler (async (req,res)=>{
+const signin = asyncHandler (async (req,res)=>{
   const user = await User.findOne({email:req.body.email});
 
   if(user){
@@ -174,7 +174,7 @@ return res.status(201).send(topSellers);
 })
 
 export {
-    login,
+    signin,
     signup,
     getUsers,
     getProfile,

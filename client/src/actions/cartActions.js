@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import {Axios} from "../config/AxiosConnect";
 import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
@@ -8,7 +8,7 @@ import {
 } from '../constants/cartConstants';
 
 export const addToCart = (productId, qty) => async (dispatch, getState) => {
-  const { data } = await Axios.get(`/api/products/${productId}`);
+  const { data } = await Axios.get(`/zephyr/products/${productId}`);
   const {
     cart: { cartItems },
   } = getState();

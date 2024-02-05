@@ -33,7 +33,7 @@ Create a .env file in then root and add the following
 
 ```
 NODE_ENV = development
-PORT = 5000
+PORT = 5050
 MONGO_URI = your mongodb uri
 JWT_SECRET = 'abc123'
 PAYPAL_CLIENT_ID = your paypal client id
@@ -43,12 +43,13 @@ PAYPAL_CLIENT_ID = your paypal client id
 
 ```
 npm install
-cd frontend
+cd client
 npm install
+cd server
 ```
 ### Run
 ```
-# Run frontend (:3000) & backend (:5000)
+# Run frontend (:3000) & backend (:5050)
 npm run dev
 
 # Run backend only
@@ -58,7 +59,7 @@ npm run server
 
 ```
 # Create frontend prod build
-cd frontend
+cd client
 npm run build
 ```
 

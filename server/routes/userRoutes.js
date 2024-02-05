@@ -2,7 +2,7 @@ import express from 'express';
 import { isAuth,isAdmin,isSellerOrAdmin } from "../middlewares/authMiddleware.js";
 
 import {
-    login,
+    signin,
     signup,
     getUsers,
     getProfile,
@@ -23,7 +23,7 @@ userRouter.route('/register')
     .post(signup);
 
 userRouter.route('/signin')
-    .post(login);
+    .post(signin);
 
 userRouter.route('/profile')
   .get(isAuth, getProfile)

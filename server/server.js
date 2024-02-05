@@ -42,10 +42,10 @@ async function init(){
   }
 }
 
-app.use('/api/products', productRouter);
-app.use('/api/users', userRouter);
-app.use('/api/orders', orderRouter);
-app.use('/api/upload', uploadRouter);
+app.use('/zephyr/products', productRouter);
+app.use('/zephyr/users', userRouter);
+app.use('/zephyr/orders', orderRouter);
+app.use('/zephyr/upload', uploadRouter);
 
 app.get('/api/config/paypal', (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || 'sb');

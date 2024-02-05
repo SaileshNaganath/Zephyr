@@ -4,17 +4,18 @@ import User from "../models/userModel.js";
 
 export const isAuth = asyncHandler(async(req,res,next) => {
   
-    const authorization = req.headers.authorization;
+    const authorizationHeader = req.headers.authorization;
     
-    if(authorization){
+    if(authorizationHeader && authorizationHeader.startsWith('Bearer')){
         try{
-            let token = authorization.split(" ")[1];
+            let token = authorizationHeader.split(" ")[1];
             const decoded = jwt.verify(token ,process.env.JWT_SECRET);
 
             req.user = await User.findById(decoded.id).select('-password');
 
             next();
         }
+        
         catch(err){
             return res.status(401).send({
                 message:"Token Failed!"
